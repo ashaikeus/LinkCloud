@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="card">
+  <div class="card-header">
+      {{ link.tags }}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">{{ link.title }}</h5>
+    <p class="card-text">{{ link.description }}</p>
+    <a href="#" class="btn btn-primary">{{ link.link }}</a>
+  </div>
+</div>
+{% endblock %}
