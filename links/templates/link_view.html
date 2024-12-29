@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="link-info-card">
+    <div class="link-main-view">
+        <h1><b>{{ link.name }}</b> - <i>{{ link.link }}</i></h1>
+        <p>{{ link.description }}</p>
+        <a href="{{ link.link }}">Ссылка</a>
+    </div>
+    <div class="tags">
+    <ul>
+        {% for tag in tags %}
+            <div class="tag-container"><a href="/tags/{{ tag }}">{{ tag }} ({{ tag.num_times }})</a></div>
+        {% endfor %}
+    </ul>
+    </div>
+  </div>
+  <div class="discussion">
+    a tut pusto
+  </div>
+{% endblock %}

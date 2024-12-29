@@ -1,7 +1,11 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <div class="main-container">
-        This is the main container on the Index page.
-    </div>
+    <p>Welcome to the cloud of useful links curated by users.</p>
+    <p>Whether you want to learn something new or find a clear cheatsheet, what you're looking for might just be in one of our most popular tags:</p>
+    {% for tag in tags %}
+        <div class="tag-container"><a href="/tags/{{ tag }}">{{ tag }} ({{ tag.num_times }})</a></div>
+    {% empty %}
+        <i>(currently none)</i>
+    {% endfor %}
 {% endblock %}

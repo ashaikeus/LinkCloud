@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% for link in links %}
+        <div><a href="{{ link.link }}"><i class="fa fa-link"></i></a> {{ link.name }}</div>
+    {% empty %}
+        <p>No links found for tag <b>{{ tag }}.</b></p>
+    {% endfor %}
+{% endblock %}

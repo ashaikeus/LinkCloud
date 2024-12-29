@@ -1,8 +1,9 @@
 :root {
-    --background: radial-gradient(ellipse at top, #0098ca, #061717);
-    --text-color: #061717;
-    --font: "Times New Roman", Times, serif;
-    --main-container-bg: radial-gradient(rgba(204, 255, 243, 1), rgba(204, 255, 243, 0.5));
+    --background: #191919;
+    --text-color: white;
+    --font: monospace;
+    --main-container-bg: black;
+    --tag-container-bg: var(--main-container-bg);
 }
 
 html {
@@ -22,11 +23,35 @@ body {
 .main-container {
     overflow-y: auto;
     overflow-x: hidden;
-    margin: 10px auto;
-    padding: 20px 60px;
+    margin: auto;
+    /*padding: 20px 60px;*/
     /*height: 100vh;*/
     width: 80%;
     /*border: 1px solid crimson;*/
+    /*border-radius: 5px;*/
+    /*background: var(--main-container-bg);*/
+}
+
+.link-info-card {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.tag-container {
+    display: inline-block;
+    background: var(--tag-container-bg);
+    padding: 10px;
     border-radius: 5px;
-    background: var(--main-container-bg);
+}
+
+div .icon {
+    width: 10px;
+    height: 10px;
+}
+
+div .link {
+    width: 10px;
+    height: 10px;
+    background: url("https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/link-hyperlink-icon.png");
 }
