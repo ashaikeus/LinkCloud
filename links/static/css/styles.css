@@ -1,23 +1,37 @@
 :root {
-    --background: #191919;
-    --text-color: white;
-    --font: monospace;
-    --main-container-bg: black;
-    --tag-container-bg: var(--main-container-bg);
+    --custom-color-1: #191919;  /* Background color */
+    --custom-color-2: white;  /* Main text color */
+    --custom-color-3: black;  /* Main container background color */
+    --custom-color-4: black;  /* Tag container background color */
+    --custom-color-5: red;  /* Tag link color */
+    --custom-font-1: monospace;  /* Main font */
+    --custom-font-size: 16px;
+    --background: var(--custom-color-1);
+    --text-color: var(--custom-color-2);
+    --font: var(--custom-font-1), monospace;
+    --main-container-bg: var(--custom-color-3);
+    --tag-container-bg: var(--custom-color-4);
+    --tag-link-color: var(--custom-color-5);
+    --font-size: var(--custom-font-size);
 }
 
 html {
     height: 100%;
-    /*max-width: 100vw;*/
-    /*overflow: clip;*/
 }
 
 body {
-    /*height: 100%;*/
-    /*margin: 0;*/
     background: var(--background);
     color: var(--text-color);
     font-family: var(--font), monospace;
+    font-size: var(--font-size);
+}
+
+a:link {
+    color: white;
+}
+
+a:visited {
+    color: darkgrey;
 }
 
 .main-container {
@@ -45,6 +59,11 @@ body {
     border-radius: 5px;
 }
 
+.tag-container a {
+    color: var(--custom-color-5);
+    font-weight: normal;
+}
+
 div .icon {
     width: 10px;
     height: 10px;
@@ -54,4 +73,32 @@ div .link {
     width: 10px;
     height: 10px;
     background: url("https://uxwing.com/wp-content/themes/uxwing/download/web-app-development/link-hyperlink-icon.png");
+}
+
+.discussion > *:not(:first-child) {
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid var(--custom-color-3);
+    background: linear-gradient(to right, #FFFFFF07, #FFFFFF11 5%, #FFFFFF11 55%, #FFFFFF00);
+}
+
+.comment .author {
+    font-weight: bold;
+    font-size: calc(var(--custom-font-size) + 5px);
+}
+
+.comment .text {
+    width: 50%;
+    padding: 0.5%;
+    padding-bottom: 0.3%;
+    margin-left: 1%;
+    /*border: 1px solid red;*/
+}
+
+.dark {
+    color: darkgrey;
+}
+
+.centered {
+    margin: auto;
 }

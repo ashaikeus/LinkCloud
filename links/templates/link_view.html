@@ -1,21 +1,41 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="link-info-card">
-    <div class="link-main-view">
-        <h1><b>{{ link.name }}</b> - <i>{{ link.link }}</i></h1>
-        <p>{{ link.description }}</p>
-        <a href="{{ link.link }}">Ссылка</a>
+    <div class="link-info-card">
+        <div class="link-main-view">
+            <h1><b>{{ link.name }}</b> - <a href="{{ link.link }}"><i>{{ link.link }}</i></a></h1>
+            {% if link.description %}
+                <p>{{ link.description }}</p>
+            {% endif %}
+        </div>
+        <div class="tags">
+            <ul>
+                {% for tag in tags %}
+                    <div class="tag-container"><a href="/tags/{{ tag }}">{{ tag }} ({{ tag.num_times }})</a></div>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
-    <div class="tags">
-    <ul>
-        {% for tag in tags %}
-            <div class="tag-container"><a href="/tags/{{ tag }}">{{ tag }} ({{ tag.num_times }})</a></div>
+    <div class="discussion">
+        <p><a href="{% url 'add_comment' pk=link.pk %}">Add comment</a></p>
+        <p class="centered dark"><i><u>{{ comments.count }} comment{% if comments.count != 1 %}s{% endif %} on this link</i></u>
+        </p>
+        {% for comment in comments %}
+            <div class="comment">
+                <div class="comment author">
+                    {% if comment.author %}
+                        <a href="/users/{{ comment.author.id }}">{{ comment.author.name }}:</a>
+                    {% else %}
+                        Unknown user:
+                    {% endif %}
+                </div>
+                <div class="comment text">
+                    {{ comment.text }}
+                </div>
+                <div class="comment date dark">
+                    - <i>{{ comment.created_at }}</i>
+                </div>
+            </div>
         {% endfor %}
-    </ul>
     </div>
-  </div>
-  <div class="discussion">
-    a tut pusto
-  </div>
 {% endblock %}
