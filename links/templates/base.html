@@ -10,6 +10,7 @@
 </head>
 <body>
     <div class="navbar">
+        <a href="/">LinkCloud <i class="fa fa-cloud"></i></a>
         <a href="{% url 'links_new' %}">Create a link</a>
         {% if user.is_authenticated %}
             <a href="{% url 'custom_logout' %}">

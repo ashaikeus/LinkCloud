@@ -1,10 +1,10 @@
 :root {
-    --custom-color-1: #191919;  /* Background color */
-    --custom-color-2: white;  /* Main text color */
-    --custom-color-3: black;  /* Main container background color */
-    --custom-color-4: black;  /* Tag container background color */
-    --custom-color-5: red;  /* Tag link color */
-    --custom-font-1: monospace;  /* Main font */
+    --custom-color-1: #191919; /* Background color */
+    --custom-color-2: white; /* Main text color */
+    --custom-color-3: black; /* Main container background color */
+    --custom-color-4: black; /* Tag container background color */
+    --custom-color-5: red; /* Tag link color */
+    --custom-font-1: monospace; /* Main font */
     --custom-font-size: 16px;
     --background: var(--custom-color-1);
     --text-color: var(--custom-color-2);
@@ -32,6 +32,32 @@ a:link {
 
 a:visited {
     color: darkgrey;
+}
+
+.navbar {
+    padding: 14px 0;
+    border-bottom: 1px solid darkgrey;
+}
+
+.navbar > * {
+    font-size: 18px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.navbar > *:not(:first-child) {
+    float: right;
+}
+
+.navbar > a:first-child {
+    color: var(--custom-color-2);
+    transition: color 0.25s ease;
+    text-decoration: none;
+}
+
+.navbar > a:first-child:hover {
+    color: var(--custom-color-5);
+    /*transition-delay: 1s;*/
 }
 
 .main-container {
