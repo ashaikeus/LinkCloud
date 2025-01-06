@@ -4,6 +4,7 @@
         <p>Something went wrong! Please try again.</p>
     {% endif %}
 
+    <p>Don't have an account? <a href="{% url 'register' %}">Create one</a></p>
     <form method="post" action="{% url 'login' %}">
         {% csrf_token %}
         <table>
@@ -17,7 +18,7 @@
             </tr>
         </table>
 
-        <input type="submit" value="login"/>
+        <input type="submit" value="Login"/>
         <input type="hidden" name="next" value="{{ next }}"/>
     </form>
 {% endblock %}

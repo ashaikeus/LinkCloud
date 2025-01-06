@@ -1,10 +1,10 @@
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse
+from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.db import IntegrityError
 
-from .forms import CommentForm, LinkForm
+from .forms import CommentForm, LinkForm, RegistrationForm
 from .models import Link, Save, Report
 from taggit.models import Tag
 from django.db.models import Count
@@ -18,13 +18,14 @@ def index(request):
 def link_view(request, pk):
     link = Link.objects.get(pk=pk)
     tags = link.tags.annotate(num_times=Count('link')).order_by('-num_times')
-    comments = link.comments.all()
+    comments = link.comments.all()[::-1]
     return render(request, 'link_view.html', {'link': link, 'tags': tags, 'comments': comments})
 
 
 def tag_links(request, name):
     links = Link.objects.filter(tags__name=name)
     return render(request, 'tag_links.html', {'links': links, 'tag': name})
+
 
 @login_required(login_url='/accounts/login/')
 def add_comment(request, pk):
@@ -34,11 +35,13 @@ def add_comment(request, pk):
         if form.is_valid():
             comment = form.save(commit=False)
             comment.link = link
+            comment.author = request.user
             comment.save()
             return redirect('link_view', pk=link.pk)
     else:
         form = CommentForm()
     return render(request, 'add_comment.html', {'form': form})
+
 
 @login_required(login_url='/accounts/login/')
 def create_link(request):
@@ -55,6 +58,7 @@ def create_link(request):
         form = LinkForm()
     return render(request, 'create_link.html', {'form': form})
 
+
 @login_required(login_url='/accounts/login/')
 def save_link(request, pk):
     save = Save()
@@ -65,6 +69,7 @@ def save_link(request, pk):
     except IntegrityError:
         Save.objects.get(link=pk, profile=request.user).delete()
     return redirect('link_view', pk=pk)
+
 
 @login_required(login_url='/accounts/login/')
 def report_link(request, pk):
@@ -77,3 +82,20 @@ def report_link(request, pk):
         # Some message about how you've already reported this link
         pass
     return redirect('link_view', pk=pk)
+
+
+def custom_logout(request):
+    if request.method == 'GET':
+        logout(request)
+    return redirect('index')
+
+
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('login')
+    else:
+        form = RegistrationForm()
+    return render(request, 'registration/register.html', {'form': form})
