@@ -1,8 +1,11 @@
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
+from django.utils import timezone
+from django.db import IntegrityError
 
-from .forms import CommentForm
-from .models import Link
+from .forms import CommentForm, LinkForm
+from .models import Link, Save, Report
 from taggit.models import Tag
 from django.db.models import Count
 
@@ -36,3 +39,41 @@ def add_comment(request, pk):
     else:
         form = CommentForm()
     return render(request, 'add_comment.html', {'form': form})
+
+@login_required(login_url='/accounts/login/')
+def create_link(request):
+    if request.method == "POST":
+        form = LinkForm(request.POST)
+        if form.is_valid():
+            link = form.save(commit=False)
+            link.created_at = timezone.now()
+            link.author = request.user
+            link.save()
+            form.save_m2m()
+            return redirect('link_view', pk=link.pk)
+    else:
+        form = LinkForm()
+    return render(request, 'create_link.html', {'form': form})
+
+@login_required(login_url='/accounts/login/')
+def save_link(request, pk):
+    save = Save()
+    save.link = get_object_or_404(Link, pk=pk)
+    save.profile = request.user
+    try:
+        save.save()
+    except IntegrityError:
+        Save.objects.get(link=pk, profile=request.user).delete()
+    return redirect('link_view', pk=pk)
+
+@login_required(login_url='/accounts/login/')
+def report_link(request, pk):
+    report = Report()
+    report.link = get_object_or_404(Link, pk=pk)
+    report.profile = request.user
+    try:
+        report.save()
+    except IntegrityError:
+        # Some message about how you've already reported this link
+        pass
+    return redirect('link_view', pk=pk)

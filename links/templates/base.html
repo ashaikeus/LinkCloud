@@ -9,6 +9,9 @@
     <title>linkcloud</title>
 </head>
 <body>
+    <div class="navbar">
+        <a href="{% url 'links_new' %}">Create a link</a>
+    </div>
     <div class="main-container">
         {% block content %}
         {% endblock %}

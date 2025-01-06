@@ -3,7 +3,18 @@
 {% block content %}
     <div class="link-info-card">
         <div class="link-main-view">
-            <h1><b>{{ link.name }}</b> - <a href="{{ link.link }}"><i>{{ link.link }}</i></a></h1>
+            <h1>
+                <b>{{ link.name }}</b> -
+                <a href="{{ link.link }}">
+                    <i>{{ link.link }}</i>
+                </a>
+                <a href="{% url 'save_link' pk=link.pk %}">
+                    <i class="fa fa-heart"></i>
+                </a>
+                <a href="{% url 'report_link' pk=link.pk %}">
+                    <i class="fa fa-flag"></i>
+                </a>
+            </h1>
             {% if link.description %}
                 <p>{{ link.description }}</p>
             {% endif %}
@@ -18,13 +29,16 @@
     </div>
     <div class="discussion">
         <p><a href="{% url 'add_comment' pk=link.pk %}">Add comment</a></p>
-        <p class="centered dark"><i><u>{{ comments.count }} comment{% if comments.count != 1 %}s{% endif %} on this link</i></u>
+        <p class="centered dark">
+            <i><u>{{ comments.count }} comment{% if comments.count != 1 %}s{% endif %} on this link</u></i>
         </p>
         {% for comment in comments %}
             <div class="comment">
                 <div class="comment author">
                     {% if comment.author %}
-                        <a href="/users/{{ comment.author.id }}">{{ comment.author.name }}:</a>
+{#                        <a href="/users/{{ comment.author.id }}">#}
+                            {{ comment.author.profile.name }}:
+{#                        </a>#}
                     {% else %}
                         Unknown user:
                     {% endif %}
