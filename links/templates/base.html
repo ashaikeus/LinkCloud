@@ -11,6 +11,14 @@
 <body>
     <div class="navbar">
         <a href="{% url 'links_new' %}">Create a link</a>
+        {% if user.is_authenticated %}
+            <form method="POST" action="{% url 'logout' %}">
+                {% csrf_token %}
+                <button type="submit">Log out</button>
+            </form>
+        {% else %}
+            <a href="{% url 'login' %}">Log in</a>
+        {% endif %}
     </div>
     <div class="main-container">
         {% block content %}

@@ -26,7 +26,7 @@ def tag_links(request, name):
     links = Link.objects.filter(tags__name=name)
     return render(request, 'tag_links.html', {'links': links, 'tag': name})
 
-
+@login_required(login_url='/accounts/login/')
 def add_comment(request, pk):
     link = get_object_or_404(Link, pk=pk)
     if request.method == "POST":
