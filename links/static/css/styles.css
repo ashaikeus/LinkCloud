@@ -1,18 +1,15 @@
 :root {
-    --custom-color-1: #191919; /* Background color */
-    --custom-color-2: white; /* Main text color */
-    --custom-color-3: black; /* Main container background color */
-    --custom-color-4: black; /* Tag container background color */
-    --custom-color-5: red; /* Tag link color */
-    --custom-font-1: monospace; /* Main font */
-    --custom-font-size: 16px;
-    --background: var(--custom-color-1);
-    --text-color: var(--custom-color-2);
-    --font: var(--custom-font-1), monospace;
-    --main-container-bg: var(--custom-color-3);
-    --tag-container-bg: var(--custom-color-4);
-    --tag-link-color: var(--custom-color-5);
-    --font-size: var(--custom-font-size);
+    --color-1: #191919; /* Background color */
+    --color-2: white; /* Main text color */
+    --color-3: black; /* Main container background color */
+    --color-4: black; /* Tag container background color */
+    --color-5: red; /* Tag link color */
+    --color-6: darkgrey; /* Visited links, darker text */
+    --color-7: cyan; /* Bright color for containers that are similar to tags but not for tags - e.g. languages */
+    --font-1: monospace; /* Main font */
+    --font-size: 17px;
+    --font: var(--font-1), monospace;
+    --tag-link-color: var(--color-5);
 }
 
 html {
@@ -20,8 +17,8 @@ html {
 }
 
 body {
-    background: var(--background);
-    color: var(--text-color);
+    background: var(--color-1);
+    color: var(--color-2);
     font-family: var(--font), monospace;
     font-size: var(--font-size);
 }
@@ -31,12 +28,12 @@ a:link {
 }
 
 a:visited {
-    color: darkgrey;
+    color: var(--color-6);
 }
 
 .navbar {
     padding: 14px 0;
-    border-bottom: 1px solid darkgrey;
+    border-bottom: 1px solid var(--color-6);
 }
 
 .navbar > * {
@@ -50,13 +47,13 @@ a:visited {
 }
 
 .navbar > a:first-child {
-    color: var(--custom-color-2);
+    color: var(--color-2);
     transition: color 0.25s ease;
     text-decoration: none;
 }
 
 .navbar > a:first-child:hover {
-    color: var(--custom-color-5);
+    color: var(--color-5);
     /*transition-delay: 1s;*/
 }
 
@@ -69,7 +66,7 @@ a:visited {
     width: 80%;
     /*border: 1px solid crimson;*/
     /*border-radius: 5px;*/
-    /*background: var(--main-container-bg);*/
+    /*background: var(--color-4);*/
 }
 
 .link-info-card {
@@ -80,14 +77,47 @@ a:visited {
 
 .tag-container {
     display: inline-block;
-    background: var(--tag-container-bg);
+    background: var(--color-4);
     padding: 10px;
+    margin: 0px 2px 5px 0;
     border-radius: 5px;
 }
 
 .tag-container a {
-    color: var(--custom-color-5);
+    color: var(--color-5);
     font-weight: normal;
+}
+
+.link-tags {
+    margin: 3px 0;
+    display: flex;
+    align-items: baseline;
+}
+
+.link-tags > * {
+    margin: 5px 3px;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltip-content {
+    display: none;
+}
+
+.tooltip:hover .tooltip-content {
+    display: inline;
+}
+
+.language a {
+    color: var(--color-7);
+}
+
+.link-tags .date {
+    justify-content: flex-end;
+    margin-left: auto;
 }
 
 div .icon {
@@ -104,13 +134,13 @@ div .link {
 .discussion > *:not(:first-child) {
     margin-top: 10px;
     padding: 10px;
-    border: 1px solid var(--custom-color-3);
+    border: 1px solid var(--color-3);
     background: linear-gradient(to right, #FFFFFF07, #FFFFFF11 5%, #FFFFFF11 55%, #FFFFFF00);
 }
 
 .comment .author {
     font-weight: bold;
-    font-size: calc(var(--custom-font-size) + 5px);
+    font-size: calc(var(--font-size) + 5px);
 }
 
 .comment .text {
@@ -122,9 +152,29 @@ div .link {
 }
 
 .dark {
-    color: darkgrey;
+    color: var(--color-6);
+}
+
+.small {
+    font-size: 12px;
+}
+
+.light {
+    color: var(--color-2);
 }
 
 .centered {
     margin: auto;
+}
+
+.dotty {
+    text-decoration: underline 1px dotted var(--color-5);
+}
+
+::selection {
+    background-color: var(--color-5);
+}
+
+.tag-container ::selection {
+    background-color: var(--color-1);
 }

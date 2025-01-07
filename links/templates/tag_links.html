@@ -1,15 +1,50 @@
 {% extends 'base.html' %}
 
 {% block content %}
+    <span>
+        <h2 class="dark">
+        Found {{ links.count }} link{% if links.count > 1 %}s{% endif %} for tag
+            <span class="light">{{ tag }}:
+            </span>
+        </h2>
+    </span>
     {% for link in links %}
-        <div>
-            [<a href="{{ link.link }}"><i class="fa fa-link"></i></a>]
-            <a href="/links/{{ link.id }}">{{ link.name }}</a>
-            {% for tag in link.tags.all %}
-            <div class="tag-container">
+        <div class="link-tags">
+            <span class="link-name">
+                [<a href="{{ link.link }}"><i class="fa fa-link"></i></a>]
+                <a href="/links/{{ link.id }}">{{ link.name }}</a>
+            </span>
+            {% if link.language %}
+                <span class="tag-container language">
+{#                    <a href="/languages/{{ link.language }}">#}
+                        {{ link.language }}
+{#                    </a>#}
+                </span>
+            {% endif %}
+            {% if link.description %}
+                <span class="dark small">
+                    {{ link.description|slice:":42" }}{% if link.description|slice:"42:" %}(...){% endif %}
+                </span>
+            {% endif %}
+            {% for tag in link.tags.all|slice:":3" %}
+                <span class="tag-container">
                 <a href="/tags/{{ tag }}">{{ tag }}</a>
-            </div>
+            </span>
             {% endfor %}
+            {% if link.tags.count > 3 %}
+                <div class="tooltip"><a href="" class="dotty">more</a>
+                    {% for tag in link.tags.all|slice:"3:" %}
+                        <span class="tag-container tooltip-content">
+                        <a href="/tags/{{ tag }}">{{ tag }}</a>
+                        </span>
+                    {% endfor %}
+                </div>
+                </a>
+                </a>
+            {% endif %}
+            <span class="date dark">
+                {{ link.created_at }}
+            </span>
         </div>
     {% empty %}
         <p>No links found for tag <b>{{ tag }}.</b></p>
