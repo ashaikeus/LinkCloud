@@ -5,7 +5,7 @@
         <div class="link-main-view">
             <h1>
                 <b>{{ link.name }}</b> -
-                <a href="{{ link.link }}">
+                <a href="{% if not link.link|slice:":8" == 'https://' %}https://{% endif %}{{ link.link }}">
                     <i>{{ link.link }}</i>
                 </a>
                 <a href="{% url 'save_link' pk=link.pk %}">
