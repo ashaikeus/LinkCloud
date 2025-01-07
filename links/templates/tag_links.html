@@ -3,9 +3,12 @@
 {% block content %}
     <span>
         <h2 class="dark">
-        Found {{ links.count }} link{% if links.count > 1 %}s{% endif %} for tag
-            <span class="light">{{ tag }}:
-            </span>
+        Found {{ links.count }} link{% if links.count > 1 %}s{% endif %}
+            {% if tag %}
+                 for tag <span class="light">{{ tag }}:</span>
+            {% elif language %}
+                in language <span class="light">{{ language }}:</span>
+            {% endif %}
         </h2>
     </span>
     {% for link in links %}
@@ -16,9 +19,9 @@
             </span>
             {% if link.language %}
                 <span class="tag-container language">
-{#                    <a href="/languages/{{ link.language }}">#}
+                    <a href="/languages/{{ link.language }}">
                         {{ link.language }}
-{#                    </a>#}
+                    </a>
                 </span>
             {% endif %}
             {% if link.description %}
