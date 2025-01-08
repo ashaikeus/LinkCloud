@@ -36,9 +36,9 @@
             <div class="comment">
                 <div class="comment author">
                     {% if comment.author %}
-{#                        <a href="/users/{{ comment.author.id }}">#}
+                        <a href="/users/{{ comment.author.id }}">
                             {{ comment.author.profile.name }}:
-{#                        </a>#}
+                        </a>
                     {% else %}
                         Unknown user:
                     {% endif %}

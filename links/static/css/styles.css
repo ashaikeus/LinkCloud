@@ -151,6 +151,18 @@ div .link {
     /*border: 1px solid red;*/
 }
 
+.profile-picture {
+    /*border-radius: 5%;*/
+    border: 1px double var(--color-5);
+    object-fit: cover;
+}
+
+#avatar-in-profile {
+    margin: 3vh 0 0 0;
+    width: 10vw;
+    height: 10vw;
+}
+
 .dark {
     color: var(--color-6);
 }
