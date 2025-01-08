@@ -15,9 +15,9 @@ def index(request):
     return render(request, 'index.html', {'tags': tags})
 
 
-def link_view(request, pk):
-    link = Link.objects.get(pk=pk)
-    tags = link.tags.annotate(num_times=Count('link')).order_by('-num_times')
+def link_view(request, pk):  # to-do: explore performance with DJDT, might be worth it to just get rid of num_times
+    link = Link.objects.prefetch_related('tags').get(pk=pk)
+    tags = Tag.objects.annotate(num_times=Count('link')).order_by('-num_times').filter(link__id=pk)
     comments = link.comments.all()[::-1]
     return render(request, 'link_view.html', {'link': link, 'tags': tags, 'comments': comments})
 
@@ -56,6 +56,8 @@ def create_link(request):
             link = form.save(commit=False)
             link.created_at = timezone.now()
             link.author = request.user
+            if not link.link.startswith('https://'):
+                link.link = 'https://' + link.link
             link.save()
             form.save_m2m()
             return redirect('link_view', pk=link.pk)

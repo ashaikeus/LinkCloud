@@ -14,7 +14,7 @@
     {% for link in links %}
         <div class="link-tags">
             <span class="link-name">
-                [<a href="{% if not link.link|slice:":8" == 'https://' %}https://{% endif %}{{ link.link }}"><i class="fa fa-link"></i></a>]
+                [<a href="{{ link.link }}"><i class="fa fa-link"></i></a>]
                 <a href="/links/{{ link.id }}">{{ link.name }}</a>
             </span>
             {% if link.language %}
@@ -42,8 +42,6 @@
                         </span>
                     {% endfor %}
                 </div>
-                </a>
-                </a>
             {% endif %}
             <span class="date dark">
                 {{ link.created_at }}
