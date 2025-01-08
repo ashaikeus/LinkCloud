@@ -1,3 +1,4 @@
+import requests
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.shortcuts import render, get_object_or_404, redirect
@@ -5,7 +6,7 @@ from django.utils import timezone
 from django.db import IntegrityError
 
 from .forms import CommentForm, LinkForm, RegistrationForm
-from .models import Link, Save, Report
+from .models import Link, Save, Report, Profile
 from taggit.models import Tag
 from django.db.models import Count
 
@@ -15,11 +16,19 @@ def index(request):
     return render(request, 'index.html', {'tags': tags})
 
 
-def link_view(request, pk):  # to-do: explore performance with DJDT, might be worth it to just get rid of num_times
+def link_view(request, pk):
+    # to-do: explore performance with DJDT, might be worth it to just get rid of num_times
+    # to-do: possibly rename to link_page
     link = Link.objects.prefetch_related('tags').get(pk=pk)
     tags = Tag.objects.annotate(num_times=Count('link')).order_by('-num_times').filter(link__id=pk)
     comments = link.comments.all()[::-1]
     return render(request, 'link_view.html', {'link': link, 'tags': tags, 'comments': comments})
+
+
+def user_page(request, pk):
+    # to-do: decide whether to move link authorship to Profile model
+    user = Profile.objects.filter(pk=pk).first()
+    return render(request, 'user_page.html', {'user': user})
 
 
 def tag_links(request, name):
@@ -101,7 +110,13 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            form.save()
+            account = form.save()
+            profile = Profile()
+            profile.id = account.id
+            profile.user = account
+            profile.name = account.username
+            profile.avatar_url = 'https://cataas.com/cat'
+            profile.save()
             return redirect('login')
     else:
         form = RegistrationForm()

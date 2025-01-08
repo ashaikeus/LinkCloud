@@ -33,6 +33,7 @@ class Link(models.Model):
 class Profile(models.Model):
     name = models.CharField(max_length=_STRING_MAX_LENGTH)
     avatar_url = models.CharField(max_length=_LINK_MAX_LENGTH, null=True, blank=True)
+    description = models.TextField(null=True, blank=True)
     languages = models.ManyToManyField(Language, related_name='profiles', null=True, blank=True)
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='profile', null=True)
 
