@@ -22,7 +22,7 @@
         <div class="tags">
             <ul>
                 {% for tag in tags %}
-                    <div class="tag-container"><a href="/tags/{{ tag }}">{{ tag }} ({{ tag.num_times }})</a></div>
+                    <div class="tag-container"><a href="{% url 'links' %}?tag={{ tag }}">{{ tag }} ({{ tag.num_times }})</a></div>
                 {% endfor %}
             </ul>
         </div>
