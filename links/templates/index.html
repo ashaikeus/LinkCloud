@@ -3,9 +3,12 @@
 {% block content %}
     <p>Welcome to the cloud of useful links curated by users.</p>
     <p>Whether you want to learn something new or find a clear cheatsheet, what you're looking for might just be in one of our most popular tags:</p>
-    {% for tag in tags %}
-        <div class="tag-container"><a href="/tags/{{ tag }}">{{ tag }} ({{ tag.num_times }})</a></div>
+    {% for tag in tags|slice:":50" %}
+        <div class="tag-container"><a href="{% url 'links' %}?tag={{ tag }}">{{ tag }} ({{ tag.num_times }})</a></div>
     {% empty %}
         <i>(currently none)</i>
     {% endfor %}
+    {% if tags.count > 50 %}
+        <a href="{% url 'tags' %}">show all</a>
+    {% endif %}
 {% endblock %}

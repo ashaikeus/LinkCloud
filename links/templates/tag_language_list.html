@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2 class="dark">
+        Found <span class="light">{{ tags.count }}</span>
+        {% if language %}
+            languages{% else %}
+            tags{% endif %}:</h2>
+    {% for tag in tags %}
+        {% if language %}
+            <div class="tag-container language">
+                <a href="{% url 'links' %}?language={{ tag }}">{{ tag }} ({{ tag.num_times }})
+                </a>
+            </div>
+        {% else %}
+            <div class="tag-container">
+                <a href="{% url 'links' %}?tag={{ tag }}">{{ tag }} ({{ tag.num_times }})
+                </a>
+            </div>
+        {% endif %}
+    {% empty %}
+        <i>(currently none)</i>
+    {% endfor %}
+{% endblock %}

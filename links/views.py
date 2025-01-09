@@ -6,13 +6,13 @@ from django.utils import timezone
 from django.db import IntegrityError
 
 from .forms import CommentForm, LinkForm, RegistrationForm
-from .models import Link, Save, Report, Profile
+from .models import Link, Save, Report, Profile, Language
 from taggit.models import Tag
 from django.db.models import Count
 
 
 def index(request):
-    tags = Tag.objects.annotate(num_times=Count('link')).filter(num_times__gt=0).order_by('-num_times')[:50]
+    tags = Tag.objects.annotate(num_times=Count('link')).filter(num_times__gt=0).order_by('-num_times')
     return render(request, 'index.html', {'tags': tags})
 
 
@@ -25,15 +25,15 @@ def link_view(request, pk):
     return render(request, 'link_view.html', {'link': link, 'tags': tags, 'comments': comments})
 
 
-def filter_links(request, *args, **kwargs):
+def filter_links(request):
     tag = request.GET.get("tag")
     language = request.GET.get("language")
-    links = Link.objects.order_by('-created_at')
+    links = Link.objects.order_by('-created_at').order_by('-id')
     if tag:
         links = links.filter(tags__name=tag)
     if language:
         links = links.filter(language__name=language)
-    return render(request, 'filter_links.html', {'links': links, 'tag': tag, 'language': language})
+    return render(request, 'links.html', {'links': links, 'tag': tag, 'language': language})
 
 
 def user_page(request, pk):
@@ -100,6 +100,20 @@ def report_link(request, pk):
         pass
     return redirect('link_view', pk=pk)
 
+
+def tag_list(request):
+    show_empty = request.GET.get('show_empty')
+    tags = Tag.objects.annotate(num_times=Count('link')).order_by('-num_times')
+    if not show_empty:
+        tags = tags.filter(num_times__gt=0)
+    return render(request, 'tag_language_list.html', {'tags': tags})
+
+def language_list(request):
+    show_empty = request.GET.get('show_empty')
+    tags = Language.objects.annotate(num_times=Count('links')).order_by('-num_times')
+    if not show_empty:
+        tags = tags.filter(num_times__gt=0)
+    return render(request, 'tag_language_list.html', {'tags': tags, 'language': True})
 
 def custom_logout(request):
     if request.method == 'GET':
