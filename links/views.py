@@ -25,20 +25,21 @@ def link_view(request, pk):
     return render(request, 'link_view.html', {'link': link, 'tags': tags, 'comments': comments})
 
 
+def filter_links(request, *args, **kwargs):
+    tag = request.GET.get("tag")
+    language = request.GET.get("language")
+    links = Link.objects.order_by('-created_at')
+    if tag:
+        links = links.filter(tags__name=tag)
+    if language:
+        links = links.filter(language__name=language)
+    return render(request, 'filter_links.html', {'links': links, 'tag': tag, 'language': language})
+
+
 def user_page(request, pk):
     # to-do: decide whether to move link authorship to Profile model
     user = Profile.objects.filter(pk=pk).first()
     return render(request, 'user_page.html', {'user': user})
-
-
-def tag_links(request, name):
-    links = Link.objects.filter(tags__name=name)
-    return render(request, 'tag_links.html', {'links': links, 'tag': name})
-
-
-def language_links(request, name):
-    links = Link.objects.filter(language__name=name)
-    return render(request, 'tag_links.html', {'links': links, 'language': name})
 
 
 @login_required(login_url='/accounts/login/')
