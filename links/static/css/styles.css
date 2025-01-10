@@ -32,19 +32,30 @@ a:visited {
 }
 
 .navbar {
+    position: fixed;
+    display: block;
+    flex-direction: column;
+    width: 10vw;
+    height: 100%;
+    margin: 0;
     padding: 14px 0;
-    border-bottom: 1px solid var(--color-6);
+    background: var(--color-1);
+    border-right: 1px solid var(--color-6);
+}
+
+.navbar a {
+    text-decoration: none;
 }
 
 .navbar > * {
+    display: block;
     font-size: 18px;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding: 20px;
 }
 
-.navbar > *:not(:first-child) {
-    float: right;
-}
+/*.navbar > *:not(:first-child) {*/
+/*    float: right;*/
+/*}*/
 
 .navbar > a:first-child {
     color: var(--color-2);
@@ -52,21 +63,16 @@ a:visited {
     text-decoration: none;
 }
 
-.navbar > a:first-child:hover {
+.navbar > a:hover {
     color: var(--color-5);
-    /*transition-delay: 1s;*/
 }
 
 .main-container {
     overflow-y: auto;
     overflow-x: hidden;
     margin: auto;
-    /*padding: 20px 60px;*/
-    /*height: 100vh;*/
     width: 80%;
     /*border: 1px solid crimson;*/
-    /*border-radius: 5px;*/
-    /*background: var(--color-4);*/
 }
 
 .link-info-card {
