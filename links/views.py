@@ -39,6 +39,8 @@ def filter_links(request):
 def user_page(request, pk):
     # to-do: decide whether to move link authorship to Profile model
     user = Profile.objects.filter(pk=pk).first()
+    if user:
+        user = user.user
     return render(request, 'user_page.html', {'user': user})
 
 
