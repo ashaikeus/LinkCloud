@@ -1,14 +1,27 @@
 {% extends 'base.html' %}
 {% block content %}
-<body>
     {% if form.errors %}
         <p>Something went wrong! Please read the requirements and try again.</p>
     {% endif %}
+
+    <script src="https://accounts.google.com/gsi/client" async></script>
+    <div id="g_id_onload"
+        data-client_id="96297569733-g5jpo129k6p5kg87lcjomdvcqnjlvt6p.apps.googleusercontent.com"
+        data-login_uri="http://127.0.0.1:8000/accounts/google/login/callback/"
+        data-auto_prompt="false">
+    </div>
+    <div class="g_id_signin"
+        data-type="standard"
+        data-size="large"
+        data-theme="outline"
+        data-text="sign_in_with"
+        data-shape="rectangular"
+        data-logo_alignment="left">
+    </div>
 
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
         <input type="submit" value="Register"/>
     </form>
-</body>
 {% endblock %}
